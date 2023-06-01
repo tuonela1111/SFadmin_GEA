@@ -1,0 +1,38 @@
+---
+
+- hosts: all
+  become: yes
+  tasks:
+  - name: Install nginx
+    apt:
+      name: 'nginx'
+      state: 'latest'
+    when:
+       ansible_os_family == "Debian"
+  - name: apache on Ubuntu
+    apt:
+      name: 'apache2'
+      state: 'latest'
+    when:
+       ansible_os_family == "Debian"
+  - name: nginx restart
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+      enabled: true
+  - name: apache2 restart
+    ansible.builtin.service:
+      name: apache2
+      state: restarted
+      enabled: true
+  handlers:
+  - name: nginx systemd
+    systemd:
+     name: nginx.service
+     enabled: yes
+     state: started
+  - name: apache2 systemd
+    systemd:
+     name: apache2.service
+     enabled: yes
+     state: started

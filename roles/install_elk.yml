@@ -1,0 +1,50 @@
+---
+
+- hosts: centos
+  become: yes
+  tasks:
+  - name: Copy elk to CentOS
+    copy:
+      src: "{{ item }}"
+      dest: /home/tuonela/
+      force: yes
+    with_fileglob:
+    - "/home/tuonela/elk/*"
+    when:
+       ansible_os_family == "RedHat"
+  - name: install elk on CentOS
+    ansible.builtin.yum:
+       name: "{{ item }}"
+       state: present
+    with_items:
+      - /home/tuonela/elasticsearch-7.17.1-x86_64.rpm
+      - /home/tuonela/logstash-7.17.1-x86_64.rpm
+      - /home/tuonela/kibana-7.17.1-x86_64.rpm
+    when:
+       ansible_os_family == "RedHat"
+  - name: elk restart
+    ansible.builtin.service:
+      name: "{{ item }}"
+      state: restarted
+      enabled: true
+    with_items:
+    - elasticsearch
+    - logstash
+    - kibana
+  handlers:
+  - name: logstash systemd
+    systemd:
+     name: logstash.service
+     enabled: yes
+     state: started
+  - name: elasticsearch systemd
+    systemd:
+     name: elasticsearch.service
+     enabled: yes
+     state: started
+  - name: kibana systemd
+    systemd:
+     name: kibana.service
+     enabled: yes
+     state: started
+

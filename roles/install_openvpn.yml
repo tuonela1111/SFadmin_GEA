@@ -1,0 +1,27 @@
+---
+
+- hosts: all
+  become: yes
+  tasks:
+  -  name: Install openvpn on RedHat Family
+     yum:
+        name=openvpn
+        state=latest
+     when:
+        ansible_os_family == "RedHat"
+     notify:
+        openvpn systemd
+  -  name: Install openvpn on Ubuntu
+     apt:
+        name=openvpn
+        state=latest
+     when:
+        ansible_os_family == "Debian"
+     notify:
+        openvpn systemd
+  handlers:
+  - name: openvpn systemd
+    systemd:
+     name: openvpn.service
+     enabled: yes
+     state: started
