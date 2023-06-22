@@ -5,27 +5,27 @@
   tasks:
   - name: Copy filebeat to RedHat
     copy:
-      src: /home/tuonela/elk/filebeat-7.17.8-x86_64.rpm
+      src: /home/tuonela/elk/filebeat-8.6.2-x86_64.rpm
       dest: /home/tuonela/
       force: yes
     when:
        ansible_os_family == "RedHat"
   - name: Copy filebeat to Ubuntu
     copy:
-      src: /home/tuonela/elk/filebeat-7.17.8-amd64.deb
+      src: /home/tuonela/elk/filebeat-8.6.2-amd64.deb
       dest: /home/tuonela/
       force: yes
     when:
        ansible_os_family == "Debian"
   - name: install filebeat on CentOS
     ansible.builtin.yum:
-       name: /home/tuonela/filebeat-7.17.8-x86_64.rpm
+       name: /home/tuonela/filebeat-8.6.2-x86_64.rpm
        state: present
     when:
        ansible_os_family == "RedHat"
   - name: install filebeat on Ubuntu
     ansible.builtin.apt:
-       name: /home/tuonela/filebeat-7.17.8-amd64.deb
+       name: /home/tuonela/filebeat-8.6.2-amd64.deb
        state: present
     when:
        ansible_os_family == "Debian"
