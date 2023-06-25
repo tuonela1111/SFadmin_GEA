@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  become: yes
+  tasks:
+  - name: Install mysql-server
+    apt:
+      name: 'mysql-server'
+      state: 'latest'
+    when:
+       ansible_os_family == "Debian"
+  - name: mysql-server restart
+    ansible.builtin.service:
+      name: mysql-server
+      state: restarted
+      enabled: true
+  handlers:
+  - name: mysql-server systemd
+    systemd:
+     name: mysql-server.service
+     enabled: yes
+     state: started
