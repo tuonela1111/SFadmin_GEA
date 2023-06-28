@@ -2,12 +2,14 @@
 Итоговый проект 3
 
 #1 UZAB-server - установка вручную: Zabbix, Grafana, Ansible, OpenVPN, filebeat;
+               - роли ansible:  install_mysql_server.yml
                               
 #2 UWDM-server - роли ansible:  install_openvpn.yml
                                 install_zabbix_agent.yml
                                 install_nginx_apache2.yml                                 
                                 install_java.yml
                                 install_filebeat.yml
+                                install_mysql_server.yml
 
                    Non-ansible installation: bind9 (DNS-сервер устанавливается один раз и используется долгое время) 
                                              Wordpress (устанавливается один раз для этого задания) 
